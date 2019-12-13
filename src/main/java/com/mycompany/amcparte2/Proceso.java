@@ -9,6 +9,11 @@ package com.mycompany.amcparte2;
  *
  * @author usuario
  */
-public class AFN {
-    
+public interface Proceso {
+
+    public abstract boolean esFinal(int estado);
+
+    public abstract boolean reconocer(String cadena);
+
+    public abstract String toString();
 }

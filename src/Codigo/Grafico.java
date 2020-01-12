@@ -38,10 +38,12 @@ public class Grafico extends javax.swing.JFrame {
 
         jMenu1.setText("Nuevo");
 
+        jMenu3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/mas.png"))); // NOI18N
         jMenu3.setText("Crear AFD");
         jMenu3.setMaximumSize(new java.awt.Dimension(32732, 32732));
         jMenu1.add(jMenu3);
 
+        jMenu4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/mas.png"))); // NOI18N
         jMenu4.setText("Crear AFND");
         jMenu1.add(jMenu4);
 

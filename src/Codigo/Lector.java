@@ -83,7 +83,9 @@ public class Lector {
                     contTr = contTr + trafd.getE1().nombre + " -> " + trafd.getE2().nombre + " [label = \"" + trafd.getSimbolo() + "\"];\n";
                 }
             }
-            content = content + contTr + "start -> " + estados[0].nombre + ";}";
+            content = content + contTr;
+            content = content + "start -> " + estados[0].nombre + ";";
+            content = content + "}";
             fw = new FileWriter(fichero.getAbsolutePath());
             bw = new BufferedWriter(fw);
             bw.append(content);
@@ -125,7 +127,9 @@ public class Lector {
                     contTr = contTr + tr1.getE1().nombre + " -> " + tr1.getE2().get(j).nombre + " [label = \"λ\"];\n";
                 }
             }
-            content = content + contTr + "start -> " + estados[0].nombre + ";}";
+            content = content + contTr;
+            content = content + "start -> " + estados[0].nombre + ";";
+            content = content + "}";
             fw = new FileWriter(fichero.getAbsolutePath());
             bw = new BufferedWriter(fw);
             bw.append(content);
@@ -169,12 +173,12 @@ public class Lector {
                 if (s.startsWith("#Estados")) {
                     if (isAFD) {
                         String[] read = s.split(" ");
-                        for (int i = 0; i < read.length; i++) {
+                        for (int i = 1; i < read.length; i++) {
                             ((AFD) p).estados.add(new EstadoF(read[i]));
                         }
                     } else {
                         String[] read = s.split(" ");
-                        for (int i = 0; i < read.length; i++) {
+                        for (int i = 1; i < read.length; i++) {
                             ((AFND) p).estados.add(new EstadoNF(read[i]));
                         }
                     }

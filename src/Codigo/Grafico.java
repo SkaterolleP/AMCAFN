@@ -5,17 +5,49 @@
  */
 package Codigo;
 
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
+
 /**
  *
  * @author Alberto's PC
  */
 public class Grafico extends javax.swing.JFrame {
 
+    public AFD af;
+    public AFND afn;
+    public boolean esAFD;
+
     /**
      * Creates new form Grafico
      */
     public Grafico() {
         initComponents();
+        Accion.setText("---");
+        IntroTexto.setEnabled(false);
+        Ejecuta.setEnabled(false);
+        Clona.setEnabled(false);
+        AgregarEstado.setEnabled(false);
+        ModificarEstado.setEnabled(false);
+        EliminarEstado.setEnabled(false);
+        AgregarFinal.setEnabled(false);
+        EliminarFinal.setEnabled(false);
+        AgregaTrans.setEnabled(false);
+        ModificaTransAFD.setEnabled(false);
+        ModificaTransAFND.setEnabled(false);
+        EliminaTrans.setEnabled(false);
+        AgregaTransA.setEnabled(false);
+        ModificaTransA.setEnabled(false);
+        EliminaTransA.setEnabled(false);
+        Terminal.setEditable(false);
+        Terminal.setEnabled(true);
+        Visualiza.setEnabled(false);
     }
 
     /**
@@ -27,50 +59,411 @@ public class Grafico extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jMenuBar1 = new javax.swing.JMenuBar();
+        EligeFichero = new javax.swing.JFileChooser();
+        jPanel1 = new javax.swing.JPanel();
+        Ejecuta = new javax.swing.JButton();
+        Clona = new javax.swing.JButton();
+        Visualiza = new javax.swing.JButton();
+        Accion = new javax.swing.JLabel();
+        IntroTexto = new javax.swing.JTextField();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        Terminal = new javax.swing.JTextArea();
+        jLabel1 = new javax.swing.JLabel();
+        panelOriginal = new javax.swing.JPanel();
+        AutomataOriginal = new javax.swing.JLabel();
+        Menu = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
-        jMenu3 = new javax.swing.JMenu();
-        jMenu4 = new javax.swing.JMenu();
-        LeerFichero = new javax.swing.JMenu();
+        CreaAFD = new javax.swing.JMenuItem();
+        CreaAFND = new javax.swing.JMenuItem();
+        LeeFichero = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
+        AgregarEstado = new javax.swing.JMenuItem();
+        ModificarEstado = new javax.swing.JMenuItem();
+        EliminarEstado = new javax.swing.JMenuItem();
+        jSeparator1 = new javax.swing.JPopupMenu.Separator();
+        AgregarFinal = new javax.swing.JMenuItem();
+        EliminarFinal = new javax.swing.JMenuItem();
+        jMenu3 = new javax.swing.JMenu();
+        AgregaTrans = new javax.swing.JMenuItem();
+        ModificaTransAFD = new javax.swing.JMenuItem();
+        ModificaTransAFND = new javax.swing.JMenuItem();
+        EliminaTrans = new javax.swing.JMenuItem();
+        jSeparator2 = new javax.swing.JPopupMenu.Separator();
+        AgregaTransA = new javax.swing.JMenuItem();
+        ModificaTransA = new javax.swing.JMenuItem();
+        EliminaTransA = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        jPanel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+        Ejecuta.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        Ejecuta.setText("Ejecutar");
+
+        Clona.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        Clona.setText("Clonar");
+
+        Visualiza.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        Visualiza.setText("Visualizar");
+        Visualiza.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                VisualizaActionPerformed(evt);
+            }
+        });
+
+        Accion.setText("---");
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(IntroTexto)
+                        .addComponent(Ejecuta, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(Accion)))
+                .addGap(18, 18, 18)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(Clona, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(Visualiza, javax.swing.GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(31, 31, 31)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(Visualiza, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(Accion)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(IntroTexto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(Ejecuta)
+                    .addComponent(Clona))
+                .addGap(28, 28, 28))
+        );
+
+        Terminal.setColumns(20);
+        Terminal.setRows(5);
+        jScrollPane1.setViewportView(Terminal);
+
+        jLabel1.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel1.setText("Autómata Original");
+
+        panelOriginal.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        panelOriginal.setMinimumSize(new java.awt.Dimension(989, 188));
+
+        AutomataOriginal.setPreferredSize(new java.awt.Dimension(267, 1060));
+        AutomataOriginal.setRequestFocusEnabled(false);
+
+        javax.swing.GroupLayout panelOriginalLayout = new javax.swing.GroupLayout(panelOriginal);
+        panelOriginal.setLayout(panelOriginalLayout);
+        panelOriginalLayout.setHorizontalGroup(
+            panelOriginalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelOriginalLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(AutomataOriginal, javax.swing.GroupLayout.PREFERRED_SIZE, 965, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        panelOriginalLayout.setVerticalGroup(
+            panelOriginalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panelOriginalLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(AutomataOriginal, javax.swing.GroupLayout.DEFAULT_SIZE, 162, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
         jMenu1.setText("Nuevo");
 
-        jMenu3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/mas.png"))); // NOI18N
-        jMenu3.setText("Crear AFD");
-        jMenu3.setMaximumSize(new java.awt.Dimension(32732, 32732));
-        jMenu1.add(jMenu3);
+        CreaAFD.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/mas.png"))); // NOI18N
+        CreaAFD.setText("Crear AFD");
+        CreaAFD.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CreaAFDActionPerformed(evt);
+            }
+        });
+        jMenu1.add(CreaAFD);
 
-        jMenu4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/mas.png"))); // NOI18N
-        jMenu4.setText("Crear AFND");
-        jMenu1.add(jMenu4);
+        CreaAFND.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/mas.png"))); // NOI18N
+        CreaAFND.setText("Crear AFND");
+        CreaAFND.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CreaAFNDActionPerformed(evt);
+            }
+        });
+        jMenu1.add(CreaAFND);
 
-        LeerFichero.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/anadir.png"))); // NOI18N
-        LeerFichero.setText("Leer fichero");
-        jMenu1.add(LeerFichero);
+        LeeFichero.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/anadir.png"))); // NOI18N
+        LeeFichero.setText("Leer Fichero");
+        LeeFichero.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                LeeFicheroActionPerformed(evt);
+            }
+        });
+        jMenu1.add(LeeFichero);
 
-        jMenuBar1.add(jMenu1);
+        Menu.add(jMenu1);
 
-        jMenu2.setText("Edit");
-        jMenuBar1.add(jMenu2);
+        jMenu2.setText("Estado");
 
-        setJMenuBar(jMenuBar1);
+        AgregarEstado.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/mas.png"))); // NOI18N
+        AgregarEstado.setText("Agregar Estado");
+        jMenu2.add(AgregarEstado);
+
+        ModificarEstado.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/lapiz.png"))); // NOI18N
+        ModificarEstado.setText("Modificar Estado");
+        jMenu2.add(ModificarEstado);
+
+        EliminarEstado.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/dejar.png"))); // NOI18N
+        EliminarEstado.setText("Eliminar Estado");
+        jMenu2.add(EliminarEstado);
+        jMenu2.add(jSeparator1);
+
+        AgregarFinal.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/mas.png"))); // NOI18N
+        AgregarFinal.setText("Agregar Estado Final");
+        jMenu2.add(AgregarFinal);
+
+        EliminarFinal.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/dejar.png"))); // NOI18N
+        EliminarFinal.setText("Eliminar Estado Final");
+        jMenu2.add(EliminarFinal);
+
+        Menu.add(jMenu2);
+
+        jMenu3.setText("Transición");
+
+        AgregaTrans.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/mas.png"))); // NOI18N
+        AgregaTrans.setText("Agregar Transición");
+        jMenu3.add(AgregaTrans);
+
+        ModificaTransAFD.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/lapiz.png"))); // NOI18N
+        ModificaTransAFD.setText("Modificar Transición AFD");
+        jMenu3.add(ModificaTransAFD);
+
+        ModificaTransAFND.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/lapiz.png"))); // NOI18N
+        ModificaTransAFND.setText("Modificar Transición AFND");
+        jMenu3.add(ModificaTransAFND);
+
+        EliminaTrans.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/dejar.png"))); // NOI18N
+        EliminaTrans.setText("Eliminar Transición");
+        jMenu3.add(EliminaTrans);
+        jMenu3.add(jSeparator2);
+
+        AgregaTransA.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/mas.png"))); // NOI18N
+        AgregaTransA.setText("Agrega Transición A");
+        jMenu3.add(AgregaTransA);
+
+        ModificaTransA.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/lapiz.png"))); // NOI18N
+        ModificaTransA.setText("Modifica Transición A");
+        jMenu3.add(ModificaTransA);
+
+        EliminaTransA.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/dejar.png"))); // NOI18N
+        EliminaTransA.setText("Elimina Transición A");
+        jMenu3.add(EliminaTransA);
+
+        Menu.add(jMenu3);
+
+        setJMenuBar(Menu);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(27, 27, 27)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel1)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 679, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(panelOriginal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(183, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 280, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(21, 21, 21)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jScrollPane1)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(panelOriginal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(177, Short.MAX_VALUE))
         );
+
+        panelOriginal.getAccessibleContext().setAccessibleDescription("");
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+
+    private void CreaAFDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CreaAFDActionPerformed
+        // TODO add your handling code here:
+        Accion.setText(CreaAFD.getText());
+        af = new AFD();
+        esAFD = true;
+        IntroTexto.setEnabled(true);
+        Ejecuta.setEnabled(true);
+        Terminal.setText("Se ha creado un automata AFD \n");
+        Activar();
+    }//GEN-LAST:event_CreaAFDActionPerformed
+
+    private void CreaAFNDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CreaAFNDActionPerformed
+        // TODO add your handling code here:
+        Accion.setText(CreaAFND.getText());
+        afn = new AFND();
+        esAFD = false;
+        Ejecuta.setEnabled(true);
+        IntroTexto.setEnabled(true);
+        Terminal.setText("Se ha creado un automata AFND \n");
+        Activar();
+    }//GEN-LAST:event_CreaAFNDActionPerformed
+
+    private void LeeFicheroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LeeFicheroActionPerformed
+        // TODO add your handling code here:
+        int res = EligeFichero.showOpenDialog(this);
+        if (res == JFileChooser.APPROVE_OPTION) {
+            String origen = EligeFichero.getSelectedFile().getAbsolutePath();
+            Terminal.setText("Se ha creado el automata desde el fichero " + origen + "\n");
+            Lector f = new Lector();
+            Proceso p = (Proceso) f.readFile(origen);
+            if (p instanceof AFD) {
+                Accion.setText("Crea AFD");
+                af = (AFD) p;
+                esAFD = true;
+            } else {
+                Accion.setText("Crea AFND");
+                afn = (AFND) p;
+                esAFD = false;
+            }
+            Ejecuta.setEnabled(true);
+            IntroTexto.setEnabled(true);
+            Activar();
+        }
+    }//GEN-LAST:event_LeeFicheroActionPerformed
+
+    private void VisualizaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VisualizaActionPerformed
+        // TODO add your handling code here:
+        Lector f = new Lector("automata.txt");
+        f.resetFile();
+        if(esAFD){
+            f.writeAFD(af.estados.toArray(new EstadoF[af.estados.size()]));
+        }else{
+            f.writeAFND(afn.estados.toArray(new EstadoNF[afn.estados.size()]));
+        }
+        try{
+            GraphViz fichero = new GraphViz("automata.txt");
+        } catch (IOException ex) {
+            Logger.getLogger(Grafico.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException ex) {
+            Logger.getLogger(Grafico.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        try{
+            mostrar();
+        }catch (IOException ex) {
+            Logger.getLogger(Grafico.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        Activar();
+    }//GEN-LAST:event_VisualizaActionPerformed
+
+    public void mostrar()throws IOException{
+        BufferedImage img = ImageIO.read(new File("src/Imagenes/automata.gif"));
+        AutomataOriginal.setIcon(new ImageIcon(img));
+        AutomataOriginal.revalidate();
+        AutomataOriginal.repaint();
+        AutomataOriginal.update(AutomataOriginal.getGraphics());
+        panelOriginal.add(AutomataOriginal);
+    }
+    
+    private void Activar() {
+        AgregarEstado.setEnabled(true);
+        AgregarFinal.setEnabled(true);
+
+        if (esAFD == true) {
+            if (!af.estados.isEmpty()) {
+                ModificarEstado.setEnabled(true);
+                EliminarEstado.setEnabled(true);
+                AgregaTrans.setEnabled(true);
+                Visualiza.setEnabled(true);
+                Clona.setEnabled(true);
+                int i = 0;
+                boolean encontrado = false;
+                while (i < af.estados.size() && !encontrado) {
+                    if (af.estados.get(i).esfinal) {
+                        encontrado = true;
+                    } else {
+                        i++;
+                    }
+                }
+                if (encontrado) {
+                    EliminarFinal.setEnabled(true);
+                } else {
+                    EliminarFinal.setEnabled(false);
+                }
+                encontrado = false;
+                i = 0;
+                while (i < af.estados.size() && !encontrado) {
+                    if (af.estados.get(i).transiciones.size() > 0) {
+                        encontrado = true;
+                    } else {
+                        i++;
+                    }
+                }
+                if (encontrado) {
+                    ModificaTransAFD.setEnabled(true);
+                    EliminaTrans.setEnabled(true);
+                }
+            }
+        } else {
+            if (!afn.estados.isEmpty()) {
+                ModificarEstado.setEnabled(true);
+                EliminarEstado.setEnabled(true);
+                AgregaTrans.setEnabled(true);
+                AgregaTransA.setEnabled(true);
+                Visualiza.setEnabled(true);
+                Clona.setEnabled(true);
+                int i = 0;
+                boolean encontrado = false;
+                while (i < afn.estados.size() && !encontrado) {
+                    if (afn.estados.get(i).esfinal) {
+                        encontrado = true;
+                    } else {
+                        i++;
+                    }
+                }
+                if (encontrado) {
+                    EliminarFinal.setEnabled(true);
+                } else {
+                    EliminarFinal.setEnabled(false);
+                }
+                encontrado = false;
+                i = 0;
+                while (i < afn.estados.size() && !encontrado) {
+                    if (afn.estados.get(i).transiciones.size() > 0) {
+                        encontrado = true;
+                    } else {
+                        i++;
+                    }
+                }
+                if (encontrado) {
+                    ModificaTransAFND.setEnabled(true);
+                    EliminaTrans.setEnabled(true);
+                    ModificaTransA.setEnabled(true);
+                    EliminaTransA.setEnabled(true);
+                }
+            }
+        }
+    }
 
     /**
      * @param args the command line arguments
@@ -108,11 +501,38 @@ public class Grafico extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JMenu LeerFichero;
+    private javax.swing.JLabel Accion;
+    private javax.swing.JMenuItem AgregaTrans;
+    private javax.swing.JMenuItem AgregaTransA;
+    private javax.swing.JMenuItem AgregarEstado;
+    private javax.swing.JMenuItem AgregarFinal;
+    private javax.swing.JLabel AutomataOriginal;
+    private javax.swing.JButton Clona;
+    private javax.swing.JMenuItem CreaAFD;
+    private javax.swing.JMenuItem CreaAFND;
+    private javax.swing.JButton Ejecuta;
+    private javax.swing.JFileChooser EligeFichero;
+    private javax.swing.JMenuItem EliminaTrans;
+    private javax.swing.JMenuItem EliminaTransA;
+    private javax.swing.JMenuItem EliminarEstado;
+    private javax.swing.JMenuItem EliminarFinal;
+    private javax.swing.JTextField IntroTexto;
+    private javax.swing.JMenuItem LeeFichero;
+    private javax.swing.JMenuBar Menu;
+    private javax.swing.JMenuItem ModificaTransA;
+    private javax.swing.JMenuItem ModificaTransAFD;
+    private javax.swing.JMenuItem ModificaTransAFND;
+    private javax.swing.JMenuItem ModificarEstado;
+    private javax.swing.JTextArea Terminal;
+    private javax.swing.JButton Visualiza;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
-    private javax.swing.JMenu jMenu4;
-    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JPopupMenu.Separator jSeparator1;
+    private javax.swing.JPopupMenu.Separator jSeparator2;
+    private javax.swing.JPanel panelOriginal;
     // End of variables declaration//GEN-END:variables
 }

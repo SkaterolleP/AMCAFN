@@ -133,6 +133,9 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="Modificar Transici&#xf3;n AFD"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ModificaTransAFDActionPerformed"/>
+              </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="ModificaTransAFND">
               <Properties>
@@ -141,6 +144,9 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="Modificar Transici&#xf3;n AFND"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ModificaTransAFNDActionPerformed"/>
+              </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="EliminaTrans">
               <Properties>
@@ -162,6 +168,9 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="Agrega Transici&#xf3;n &#x3bb;"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="AgregaTransAActionPerformed"/>
+              </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="ModificaTransA">
               <Properties>
@@ -170,6 +179,9 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="Modifica Transici&#xf3;n &#x3bb;"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="ModificaTransAActionPerformed"/>
+              </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="EliminaTransA">
               <Properties>
@@ -179,6 +191,9 @@
                 <Property name="text" type="java.lang.String" value="Elimina Transici&#xf3;n &#x3bb;"/>
                 <Property name="toolTipText" type="java.lang.String" value=""/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="EliminaTransAActionPerformed"/>
+              </Events>
             </MenuItem>
           </SubComponents>
         </Menu>

@@ -4,14 +4,14 @@ digraph finite_state_machine {
    node [shape = point]; start;
 node [shape = circle] A;
 node [shape = circle] B;
-node [shape = circle] D;
  node [shape = doublecircle, color=black, fontcolor=black]; C;
+node [shape = circle] D;
 A -> A [label = "0"];
-A -> B [label = "1"];
-B -> B [label = "0"];
-B -> C [label = "1"];
-D -> B [label = "1"];
-D -> A [label = "0"];
+A -> B [label = "λ"];
+A -> C [label = "λ"];
+B -> B [label = "1"];
+B -> C [label = "0"];
 C -> C [label = "0"];
-C -> D [label = "1"];
+C -> A [label = "1"];
+C -> B [label = "0"];
 start -> A;}

@@ -74,11 +74,7 @@ public class TransicionAFND implements Cloneable {
         this.simbolo = simbolo;
         this.e2 = e2;
     }
-    public TransicionAFND(EstadoNF e1, char simbolo, EstadoNF e2) {
-        this.e1 = e1;
-        this.simbolo = simbolo;
-        this.e2.add(e2);
-    }
+   
 
     public String toString() {
         String s = "Estado 1: " + e1 + " + " + simbolo + " -> " + "Estado 2: " + e2;

@@ -10,6 +10,7 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -21,7 +22,7 @@ import javax.swing.JFileChooser;
  * @author Alberto's PC
  */
 public class Grafico extends javax.swing.JFrame {
-    
+
     public AFD af;
     public AFND afn;
     public boolean esAFD;
@@ -333,10 +334,20 @@ public class Grafico extends javax.swing.JFrame {
 
         ModificaTransAFD.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/lapiz.png"))); // NOI18N
         ModificaTransAFD.setText("Modificar Transición AFD");
+        ModificaTransAFD.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ModificaTransAFDActionPerformed(evt);
+            }
+        });
         jMenu3.add(ModificaTransAFD);
 
         ModificaTransAFND.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/lapiz.png"))); // NOI18N
         ModificaTransAFND.setText("Modificar Transición AFND");
+        ModificaTransAFND.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ModificaTransAFNDActionPerformed(evt);
+            }
+        });
         jMenu3.add(ModificaTransAFND);
 
         EliminaTrans.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/dejar.png"))); // NOI18N
@@ -351,15 +362,30 @@ public class Grafico extends javax.swing.JFrame {
 
         AgregaTransA.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/mas.png"))); // NOI18N
         AgregaTransA.setText("Agrega Transición λ");
+        AgregaTransA.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AgregaTransAActionPerformed(evt);
+            }
+        });
         jMenu3.add(AgregaTransA);
 
         ModificaTransA.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/lapiz.png"))); // NOI18N
         ModificaTransA.setText("Modifica Transición λ");
+        ModificaTransA.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ModificaTransAActionPerformed(evt);
+            }
+        });
         jMenu3.add(ModificaTransA);
 
         EliminaTransA.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/dejar.png"))); // NOI18N
         EliminaTransA.setText("Elimina Transición λ");
         EliminaTransA.setToolTipText("");
+        EliminaTransA.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                EliminaTransAActionPerformed(evt);
+            }
+        });
         jMenu3.add(EliminaTransA);
 
         Menu.add(jMenu3);
@@ -491,13 +517,13 @@ public class Grafico extends javax.swing.JFrame {
                     if (af.reconocer(IntroTexto.getText())) {
                         Terminal.append("\nLa cadena " + IntroTexto.getText() + " es aceptada.");
                     } else {
-                        Terminal.append("\nLa cadena " + IntroTexto.getText() + " es aceptada.");
+                        Terminal.append("\nLa cadena " + IntroTexto.getText() + " es Rechazada.");
                     }
                 } else {
                     if (afn.reconocer(IntroTexto.getText())) {
                         Terminal.append("\nLa cadena " + IntroTexto.getText() + " es aceptada.");
                     } else {
-                        Terminal.append("\nLa cadena " + IntroTexto.getText() + " es aceptada.");
+                        Terminal.append("\nLa cadena " + IntroTexto.getText() + " es Rechazada.");
                     }
                 }
                 Ejecuta.removeActionListener(this);
@@ -762,11 +788,13 @@ public class Grafico extends javax.swing.JFrame {
                     if (afn.estadosCorrecto(auto[0]) && afn.estadosCorrecto(auto[2])) {
                         EstadoNF ori = afn.estados.get(afn.estados.indexOf(new EstadoNF(auto[0])));
                         EstadoNF des = afn.estados.get(afn.estados.indexOf(new EstadoNF(auto[2])));
-                        TransicionAFND tra = new TransicionAFND(ori, auto[1].charAt(0), des);
-                        if (!afn.agregarTransicion(ori, auto[1].charAt(0), des)) {
+                        //ArrayList<EstadoNF> des = new ArrayList<EstadoNF>();
+                        //des.add(afn.estados.get(afn.estados.indexOf(new EstadoNF(auto[2]))));
+                        //TransicionAFND tra = new TransicionAFND(ori, auto[1].charAt(0), des);
+                        if (afn.agregarTransicion(ori, auto[1].charAt(0), des)) {
                             Terminal.append("\nTransiciones: " + ori + " + " + auto[1].charAt(0) + " -> " + des);
                         } else {
-                            Terminal.append("\nError al agregar la transicion " + tra);
+                            Terminal.append("\nError al agregar la transicion " + ori + " + " + auto[1].charAt(0) + " -> " + des);
                         }
                     } else {
                         Terminal.append("\nError. Estados incorrectos");
@@ -782,9 +810,106 @@ public class Grafico extends javax.swing.JFrame {
 
     private void EliminaTransActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EliminaTransActionPerformed
         // TODO add your handling code here:
-        
+        Accion.setText(EliminaTrans.getText());
+        IntroTexto.setEnabled(true);
+        Ejecuta.setEnabled(true);
+        ActionListener l = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                Ejecuta.removeActionListener(this);
+                desactivar();
+                Activar();
+            }
+        };
+        Ejecuta.addActionListener(l);
     }//GEN-LAST:event_EliminaTransActionPerformed
-    
+
+    private void ModificaTransAFDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ModificaTransAFDActionPerformed
+        // TODO add your handling code here:
+        Accion.setText(ModificaTransAFD.getText());
+        IntroTexto.setEnabled(true);
+        Ejecuta.setEnabled(true);
+        ActionListener l = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                Ejecuta.removeActionListener(this);
+                desactivar();
+                Activar();
+            }
+        };
+        Ejecuta.addActionListener(l);
+    }//GEN-LAST:event_ModificaTransAFDActionPerformed
+
+    private void ModificaTransAFNDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ModificaTransAFNDActionPerformed
+        // TODO add your handling code here:
+        Accion.setText(ModificaTransAFND.getText());
+        IntroTexto.setEnabled(true);
+        Ejecuta.setEnabled(true);
+        ActionListener l = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                Ejecuta.removeActionListener(this);
+                desactivar();
+                Activar();
+            }
+        };
+        Ejecuta.addActionListener(l);
+    }//GEN-LAST:event_ModificaTransAFNDActionPerformed
+
+    private void AgregaTransAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AgregaTransAActionPerformed
+        // TODO add your handling code here:
+        Accion.setText(AgregaTransA.getText());
+        IntroTexto.setEnabled(true);
+        Ejecuta.setEnabled(true);
+        ActionListener l = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                Ejecuta.removeActionListener(this);
+                desactivar();
+                Activar();
+            }
+        };
+        Ejecuta.addActionListener(l);
+    }//GEN-LAST:event_AgregaTransAActionPerformed
+
+    private void ModificaTransAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ModificaTransAActionPerformed
+        // TODO add your handling code here:
+        Accion.setText(ModificaTransA.getText());
+        IntroTexto.setEnabled(true);
+        Ejecuta.setEnabled(true);
+        ActionListener l = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                Ejecuta.removeActionListener(this);
+                desactivar();
+                Activar();
+            }
+        };
+        Ejecuta.addActionListener(l);
+    }//GEN-LAST:event_ModificaTransAActionPerformed
+
+    private void EliminaTransAActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EliminaTransAActionPerformed
+        // TODO add your handling code here:
+        Accion.setText(EliminaTransA.getText());
+        IntroTexto.setEnabled(true);
+        Ejecuta.setEnabled(true);
+        ActionListener l = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                Ejecuta.removeActionListener(this);
+                desactivar();
+                Activar();
+            }
+        };
+        Ejecuta.addActionListener(l);
+    }//GEN-LAST:event_EliminaTransAActionPerformed
+
     public void mostrar() throws IOException {
         BufferedImage img = ImageIO.read(new File("src/Imagenes/automata.gif"));
         AutomataOriginal.setIcon(new ImageIcon(img));
@@ -793,7 +918,7 @@ public class Grafico extends javax.swing.JFrame {
         AutomataOriginal.update(AutomataOriginal.getGraphics());
         panelOriginal.add(AutomataOriginal);
     }
-    
+
     public void mostrar2() throws IOException {
         BufferedImage img = ImageIO.read(new File("src/Imagenes/automata.gif"));
         Automataclon.setIcon(new ImageIcon(img));
@@ -802,11 +927,11 @@ public class Grafico extends javax.swing.JFrame {
         Automataclon.update(Automataclon.getGraphics());
         Panelclon.add(Automataclon);
     }
-    
+
     private void Activar() {
         AgregarEstado.setEnabled(true);
         AgregarFinal.setEnabled(true);
-        
+
         if (esAFD == true) {
             if (!af.estados.isEmpty()) {
                 ModificarEstado.setEnabled(true);
@@ -888,7 +1013,7 @@ public class Grafico extends javax.swing.JFrame {
             }
         }
     }
-    
+
     private void desactivar() {
         IntroTexto.setText("");
         IntroTexto.setEnabled(false);

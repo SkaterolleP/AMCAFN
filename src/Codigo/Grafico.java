@@ -5,6 +5,8 @@
  */
 package Codigo;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -19,7 +21,7 @@ import javax.swing.JFileChooser;
  * @author Alberto's PC
  */
 public class Grafico extends javax.swing.JFrame {
-
+    
     public AFD af;
     public AFND afn;
     public boolean esAFD;
@@ -48,6 +50,7 @@ public class Grafico extends javax.swing.JFrame {
         Terminal.setEditable(false);
         Terminal.setEnabled(true);
         Visualiza.setEnabled(false);
+        Reconocer.setEnabled(false);
     }
 
     /**
@@ -66,11 +69,15 @@ public class Grafico extends javax.swing.JFrame {
         Visualiza = new javax.swing.JButton();
         Accion = new javax.swing.JLabel();
         IntroTexto = new javax.swing.JTextField();
+        Reconocer = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         Terminal = new javax.swing.JTextArea();
         jLabel1 = new javax.swing.JLabel();
         panelOriginal = new javax.swing.JPanel();
         AutomataOriginal = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        Panelclon = new javax.swing.JPanel();
+        Automataclon = new javax.swing.JLabel();
         Menu = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         CreaAFD = new javax.swing.JMenuItem();
@@ -99,9 +106,19 @@ public class Grafico extends javax.swing.JFrame {
 
         Ejecuta.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         Ejecuta.setText("Ejecutar");
+        Ejecuta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                EjecutaActionPerformed(evt);
+            }
+        });
 
         Clona.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         Clona.setText("Clonar");
+        Clona.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ClonaActionPerformed(evt);
+            }
+        });
 
         Visualiza.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
         Visualiza.setText("Visualizar");
@@ -112,6 +129,13 @@ public class Grafico extends javax.swing.JFrame {
         });
 
         Accion.setText("---");
+
+        Reconocer.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/enlazar.png"))); // NOI18N
+        Reconocer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ReconocerActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -128,20 +152,27 @@ public class Grafico extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(Clona, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(Visualiza, javax.swing.GroupLayout.DEFAULT_SIZE, 136, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(Reconocer, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(Visualiza, javax.swing.GroupLayout.DEFAULT_SIZE, 167, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(31, 31, 31)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(Visualiza, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(31, 31, 31)
                         .addComponent(Accion)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(IntroTexto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 23, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(IntroTexto)
+                            .addComponent(Reconocer, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(36, 36, 36)
+                        .addComponent(Visualiza, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(Ejecuta)
                     .addComponent(Clona))
@@ -157,7 +188,9 @@ public class Grafico extends javax.swing.JFrame {
 
         panelOriginal.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         panelOriginal.setMinimumSize(new java.awt.Dimension(989, 188));
+        panelOriginal.setPreferredSize(new java.awt.Dimension(199, 199));
 
+        AutomataOriginal.setMinimumSize(new java.awt.Dimension(267, 1060));
         AutomataOriginal.setPreferredSize(new java.awt.Dimension(267, 1060));
         AutomataOriginal.setRequestFocusEnabled(false);
 
@@ -167,14 +200,42 @@ public class Grafico extends javax.swing.JFrame {
             panelOriginalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelOriginalLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(AutomataOriginal, javax.swing.GroupLayout.PREFERRED_SIZE, 965, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(AutomataOriginal, javax.swing.GroupLayout.DEFAULT_SIZE, 1072, Short.MAX_VALUE)
+                .addContainerGap())
         );
         panelOriginalLayout.setVerticalGroup(
             panelOriginalLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(panelOriginalLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(AutomataOriginal, javax.swing.GroupLayout.DEFAULT_SIZE, 162, Short.MAX_VALUE)
+                .addComponent(AutomataOriginal, javax.swing.GroupLayout.PREFERRED_SIZE, 224, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+
+        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel2.setText("Autómata Cloneable");
+
+        Panelclon.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        Panelclon.setMinimumSize(new java.awt.Dimension(989, 188));
+        Panelclon.setPreferredSize(new java.awt.Dimension(199, 199));
+
+        Automataclon.setMinimumSize(new java.awt.Dimension(267, 1060));
+        Automataclon.setPreferredSize(new java.awt.Dimension(267, 1060));
+        Automataclon.setRequestFocusEnabled(false);
+
+        javax.swing.GroupLayout PanelclonLayout = new javax.swing.GroupLayout(Panelclon);
+        Panelclon.setLayout(PanelclonLayout);
+        PanelclonLayout.setHorizontalGroup(
+            PanelclonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelclonLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(Automataclon, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
+        );
+        PanelclonLayout.setVerticalGroup(
+            PanelclonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PanelclonLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(Automataclon, javax.swing.GroupLayout.PREFERRED_SIZE, 224, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -213,23 +274,48 @@ public class Grafico extends javax.swing.JFrame {
 
         AgregarEstado.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/mas.png"))); // NOI18N
         AgregarEstado.setText("Agregar Estado");
+        AgregarEstado.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AgregarEstadoActionPerformed(evt);
+            }
+        });
         jMenu2.add(AgregarEstado);
 
         ModificarEstado.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/lapiz.png"))); // NOI18N
         ModificarEstado.setText("Modificar Estado");
+        ModificarEstado.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ModificarEstadoActionPerformed(evt);
+            }
+        });
         jMenu2.add(ModificarEstado);
 
         EliminarEstado.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/dejar.png"))); // NOI18N
         EliminarEstado.setText("Eliminar Estado");
+        EliminarEstado.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                EliminarEstadoActionPerformed(evt);
+            }
+        });
         jMenu2.add(EliminarEstado);
         jMenu2.add(jSeparator1);
 
         AgregarFinal.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/mas.png"))); // NOI18N
         AgregarFinal.setText("Agregar Estado Final");
+        AgregarFinal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AgregarFinalActionPerformed(evt);
+            }
+        });
         jMenu2.add(AgregarFinal);
 
         EliminarFinal.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/dejar.png"))); // NOI18N
         EliminarFinal.setText("Eliminar Estado Final");
+        EliminarFinal.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                EliminarFinalActionPerformed(evt);
+            }
+        });
         jMenu2.add(EliminarFinal);
 
         Menu.add(jMenu2);
@@ -238,6 +324,11 @@ public class Grafico extends javax.swing.JFrame {
 
         AgregaTrans.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/mas.png"))); // NOI18N
         AgregaTrans.setText("Agregar Transición");
+        AgregaTrans.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AgregaTransActionPerformed(evt);
+            }
+        });
         jMenu3.add(AgregaTrans);
 
         ModificaTransAFD.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/lapiz.png"))); // NOI18N
@@ -250,19 +341,25 @@ public class Grafico extends javax.swing.JFrame {
 
         EliminaTrans.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/dejar.png"))); // NOI18N
         EliminaTrans.setText("Eliminar Transición");
+        EliminaTrans.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                EliminaTransActionPerformed(evt);
+            }
+        });
         jMenu3.add(EliminaTrans);
         jMenu3.add(jSeparator2);
 
         AgregaTransA.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/mas.png"))); // NOI18N
-        AgregaTransA.setText("Agrega Transición A");
+        AgregaTransA.setText("Agrega Transición λ");
         jMenu3.add(AgregaTransA);
 
         ModificaTransA.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/lapiz.png"))); // NOI18N
-        ModificaTransA.setText("Modifica Transición A");
+        ModificaTransA.setText("Modifica Transición λ");
         jMenu3.add(ModificaTransA);
 
         EliminaTransA.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/dejar.png"))); // NOI18N
-        EliminaTransA.setText("Elimina Transición A");
+        EliminaTransA.setText("Elimina Transición λ");
+        EliminaTransA.setToolTipText("");
         jMenu3.add(EliminaTransA);
 
         Menu.add(jMenu3);
@@ -276,13 +373,15 @@ public class Grafico extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(27, 27, 27)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jLabel2)
                     .addComponent(jLabel1)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
+                        .addGap(37, 37, 37)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 679, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(panelOriginal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(183, Short.MAX_VALUE))
+                    .addComponent(panelOriginal, javax.swing.GroupLayout.DEFAULT_SIZE, 1096, Short.MAX_VALUE)
+                    .addComponent(Panelclon, javax.swing.GroupLayout.DEFAULT_SIZE, 1096, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -294,8 +393,12 @@ public class Grafico extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(panelOriginal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addContainerGap(177, Short.MAX_VALUE))
+                .addComponent(panelOriginal, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(Panelclon, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(31, Short.MAX_VALUE))
         );
 
         panelOriginal.getAccessibleContext().setAccessibleDescription("");
@@ -353,30 +456,336 @@ public class Grafico extends javax.swing.JFrame {
         // TODO add your handling code here:
         Lector f = new Lector("automata.txt");
         f.resetFile();
-        if(esAFD){
+        if (esAFD) {
             f.writeAFD(af.estados.toArray(new EstadoF[af.estados.size()]));
-        }else{
+        } else {
             f.writeAFND(afn.estados.toArray(new EstadoNF[afn.estados.size()]));
         }
-        try{
+        try {
             GraphViz fichero = new GraphViz("automata.txt");
         } catch (IOException ex) {
             Logger.getLogger(Grafico.class.getName()).log(Level.SEVERE, null, ex);
         }
         try {
-            Thread.sleep(2000);
+            Thread.sleep(200);
         } catch (InterruptedException ex) {
             Logger.getLogger(Grafico.class.getName()).log(Level.SEVERE, null, ex);
         }
-        try{
+        try {
             mostrar();
-        }catch (IOException ex) {
+        } catch (IOException ex) {
             Logger.getLogger(Grafico.class.getName()).log(Level.SEVERE, null, ex);
         }
         Activar();
     }//GEN-LAST:event_VisualizaActionPerformed
 
-    public void mostrar()throws IOException{
+    private void ReconocerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ReconocerActionPerformed
+        // TODO add your handling code here:
+        Accion.setText("Reconocer cadena");
+        IntroTexto.setEnabled(true);
+        Ejecuta.setEnabled(true);
+        ActionListener l = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (esAFD) {
+                    if (af.reconocer(IntroTexto.getText())) {
+                        Terminal.append("\nLa cadena " + IntroTexto.getText() + " es aceptada.");
+                    } else {
+                        Terminal.append("\nLa cadena " + IntroTexto.getText() + " es aceptada.");
+                    }
+                } else {
+                    if (afn.reconocer(IntroTexto.getText())) {
+                        Terminal.append("\nLa cadena " + IntroTexto.getText() + " es aceptada.");
+                    } else {
+                        Terminal.append("\nLa cadena " + IntroTexto.getText() + " es aceptada.");
+                    }
+                }
+                Ejecuta.removeActionListener(this);
+                desactivar();
+                Activar();
+            }
+        };
+        Ejecuta.addActionListener(l);
+    }//GEN-LAST:event_ReconocerActionPerformed
+
+    private void ClonaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ClonaActionPerformed
+        // TODO add your handling code here:
+        if (esAFD) {
+            AFD afd = (AFD) af.clone();
+            Lector le = new Lector("clonado.txt");
+            le.resetFile();
+            le.writeAFD(afd.estados.toArray(new EstadoF[afd.estados.size()]));
+            try {
+                GraphViz fichero = new GraphViz("clonado.txt");
+            } catch (IOException ex) {
+                Logger.getLogger(Grafico.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            try {
+                Thread.sleep(200);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(Grafico.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            try {
+                mostrar2();
+            } catch (IOException ex) {
+                Logger.getLogger(Grafico.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {
+            AFND afnd = (AFND) afn.clone();
+            Lector le = new Lector("clonado.txt");
+            le.resetFile();
+            le.writeAFND(afnd.estados.toArray(new EstadoNF[afnd.estados.size()]));
+            try {
+                GraphViz fichero = new GraphViz("clonado.txt");
+            } catch (IOException ex) {
+                Logger.getLogger(Grafico.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            try {
+                Thread.sleep(200);
+            } catch (InterruptedException ex) {
+                Logger.getLogger(Grafico.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            try {
+                mostrar2();
+            } catch (IOException ex) {
+                Logger.getLogger(Grafico.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }//GEN-LAST:event_ClonaActionPerformed
+
+    private void AgregarEstadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AgregarEstadoActionPerformed
+        // TODO add your handling code here:
+        Accion.setText(AgregarEstado.getText());
+        IntroTexto.setEnabled(true);
+        Ejecuta.setEnabled(true);
+        ActionListener l = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (esAFD) {
+                    if (!af.estadoCorrecto(IntroTexto.getText())) {
+                        af.agregarEstado(IntroTexto.getText());
+                        Terminal.append("\nAgregado estado: " + af.estados.get(af.estados.indexOf(new EstadoF(IntroTexto.getText()))));
+                    } else {
+                        Terminal.append("\nError. El estado " + IntroTexto.getText() + " ya existe.");
+                    }
+                } else {
+                    if (!afn.estadosCorrecto(IntroTexto.getText())) {
+                        afn.agregarEstado(IntroTexto.getText());
+                        Terminal.append("\nAgregado estado: " + afn.estados.get(afn.estados.indexOf(new EstadoNF(IntroTexto.getText()))));
+                    } else {
+                        Terminal.append("\nError. El estado " + IntroTexto.getText() + " ya existe.");
+                    }
+                }
+                Ejecuta.removeActionListener(this);
+                desactivar();
+                Activar();
+            }
+        };
+        Ejecuta.addActionListener(l);
+    }//GEN-LAST:event_AgregarEstadoActionPerformed
+
+    private void ModificarEstadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ModificarEstadoActionPerformed
+        // TODO add your handling code here:
+        Accion.setText(ModificarEstado.getText());
+        IntroTexto.setEnabled(true);
+        Ejecuta.setEnabled(true);
+        ActionListener l = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String[] auto = IntroTexto.getText().split(",");
+                if (esAFD) {
+                    if (af.estadoCorrecto(auto[0])) {
+                        if (!af.estadoCorrecto(auto[1])) {
+                            af.modificarEstado(auto[0], auto[1]);
+                            Terminal.append("\nModificado estado: " + auto[0] + " por " + auto[1] + ".");
+                        } else {
+                            Terminal.append("\nError. Estado " + auto[1] + " ya existe. No se puede modificar.");
+                        }
+                    } else {
+                        Terminal.append("\nError, Estado " + auto[0] + " no existe.");
+                    }
+                } else {
+                    if (afn.estadosCorrecto(auto[0])) {
+                        if (!afn.estadosCorrecto(auto[1])) {
+                            afn.modificarEstado(auto[0], auto[1]);
+                            Terminal.append("\nModificado estado: " + auto[0] + " por " + auto[1] + ".");
+                        } else {
+                            Terminal.append("\nError. Estado " + auto[0] + " ya existe. No se puede modificar.");
+                        }
+                    } else {
+                        Terminal.append("\nError. Estado " + auto[1] + " no existe.");
+                    }
+                }
+                Ejecuta.removeActionListener(this);
+                desactivar();
+                Activar();
+            }
+        };
+        Ejecuta.addActionListener(l);
+    }//GEN-LAST:event_ModificarEstadoActionPerformed
+
+    private void EliminarEstadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EliminarEstadoActionPerformed
+        // TODO add your handling code here:
+        Accion.setText(EliminarEstado.getText());
+        IntroTexto.setEnabled(true);
+        Ejecuta.setEnabled(true);
+        ActionListener l = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (esAFD) {
+                    if (af.estadoCorrecto(IntroTexto.getText())) {
+                        if (!af.estados.get(af.estados.indexOf(new EstadoF(IntroTexto.getText()))).esfinal) {
+                            af.eliminarEstado(IntroTexto.getText());
+                            Terminal.append("\nEliminado estado: " + IntroTexto.getText());
+                        } else {
+                            Terminal.append("\nError. El estado " + IntroTexto.getText() + " es final.");
+                        }
+                    } else {
+                        Terminal.append("\nError. Estado " + IntroTexto.getText() + " es final.");
+                    }
+                } else {
+                    if (afn.estadosCorrecto(IntroTexto.getText())) {
+                        if (!afn.estados.get(afn.estados.indexOf(new EstadoNF(IntroTexto.getText()))).esfinal) {
+                            afn.eliminarEstado(IntroTexto.getText());
+                            Terminal.append("\nEliminado estado: " + IntroTexto.getText());
+                        } else {
+                            Terminal.append("\nError. El estado " + IntroTexto.getText() + " es final.");
+                        }
+                    } else {
+                        Terminal.append("\nError. Estado " + IntroTexto.getText() + " es final.");
+                    }
+                }
+                Ejecuta.removeActionListener(this);
+                desactivar();
+                Activar();
+            }
+        };
+        Ejecuta.addActionListener(l);
+    }//GEN-LAST:event_EliminarEstadoActionPerformed
+
+    private void AgregarFinalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AgregarFinalActionPerformed
+        // TODO add your handling code here:
+        Accion.setText(AgregarFinal.getText());
+        IntroTexto.setEnabled(true);
+        Ejecuta.setEnabled(true);
+        ActionListener l = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (esAFD) {
+                    if (!af.estadoCorrecto(IntroTexto.getText())) {
+                        af.agregarEstado(IntroTexto.getText(), true);
+                        Terminal.append("\nAgregado estado: " + af.estados.get(af.estados.indexOf(new EstadoF(IntroTexto.getText()))));
+                    } else {
+                        Terminal.append("\nError. El estado " + IntroTexto.getText() + " no puede ser final");
+                    }
+                } else {
+                    afn.agregarEstado(IntroTexto.getText(), true);
+                    Terminal.append("\nAgregado estado: " + afn.estados.get(afn.estados.indexOf(new EstadoNF(IntroTexto.getText()))));
+                }
+                Ejecuta.removeActionListener(this);
+                desactivar();
+                Activar();
+            }
+        };
+        Ejecuta.addActionListener(l);
+    }//GEN-LAST:event_AgregarFinalActionPerformed
+
+    private void EliminarFinalActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EliminarFinalActionPerformed
+        // TODO add your handling code here:
+        Accion.setText(EliminarFinal.getText());
+        IntroTexto.setEnabled(true);
+        Ejecuta.setEnabled(true);
+        ActionListener l = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (esAFD) {
+                    if (af.estadoCorrecto(IntroTexto.getText())) {
+                        if (af.estados.get(af.estados.indexOf(new EstadoF(IntroTexto.getText()))).esfinal) {
+                            if (af.eliminarEstadoFinal(IntroTexto.getText())) {
+                                Terminal.append("\nEliminado estado: " + IntroTexto.getText());
+                            } else {
+                                Terminal.append("\nError. No se ha eliminado el estado: " + IntroTexto.getText());
+                            }
+                        } else {
+                            Terminal.append("\nError. el estado " + IntroTexto.getText() + " no es final.");
+                        }
+                    } else {
+                        Terminal.append("\nError. El estado " + IntroTexto.getText() + " no existe.");
+                    }
+                } else {
+                    if (afn.estadosCorrecto(IntroTexto.getText())) {
+                        if (afn.estados.get(afn.estados.indexOf(new EstadoNF(IntroTexto.getText()))).esfinal) {
+                            afn.eliminarEstadoFinal(IntroTexto.getText());
+                            Terminal.append("\nEliminado estado: " + IntroTexto.getText());
+                        } else {
+                            Terminal.append("\nError. el estado " + IntroTexto.getText() + " no es final.");
+                        }
+                    } else {
+                        Terminal.append("\nError. El estado " + IntroTexto.getText() + " no existe.");
+                    }
+                }
+                Ejecuta.removeActionListener(this);
+                desactivar();
+                Activar();
+            }
+        };
+        Ejecuta.addActionListener(l);
+    }//GEN-LAST:event_EliminarFinalActionPerformed
+
+    private void EjecutaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EjecutaActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_EjecutaActionPerformed
+
+    private void AgregaTransActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AgregaTransActionPerformed
+        // TODO add your handling code here:
+        Accion.setText(AgregaTrans.getText());
+        IntroTexto.setEnabled(true);
+        Ejecuta.setEnabled(true);
+        ActionListener l = new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String[] auto = IntroTexto.getText().split(",");
+                if (esAFD) {
+                    if (af.estadoCorrecto(auto[0]) && af.estadoCorrecto(auto[2])) {
+                        EstadoF ori = af.estados.get(af.estados.indexOf(new EstadoF(auto[0])));
+                        EstadoF des = af.estados.get(af.estados.indexOf(new EstadoF(auto[2])));
+                        TransicionAFD tra = new TransicionAFD(ori, auto[1].charAt(0), des);
+                        if (!af.agregarTransicionAFD(ori.nombre, auto[1].charAt(0), des.nombre)) {
+                            Terminal.append("\nTransiciones: " + tra);
+                        } else {
+                            Terminal.append("\nError al agregar la transicion " + tra);
+                        }
+                    } else {
+                        Terminal.append("\nError. Estados incorrectos");
+                    }
+                } else {
+                    if (afn.estadosCorrecto(auto[0]) && afn.estadosCorrecto(auto[2])) {
+                        EstadoNF ori = afn.estados.get(afn.estados.indexOf(new EstadoNF(auto[0])));
+                        EstadoNF des = afn.estados.get(afn.estados.indexOf(new EstadoNF(auto[2])));
+                        TransicionAFND tra = new TransicionAFND(ori, auto[1].charAt(0), des);
+                        if (!afn.agregarTransicion(ori, auto[1].charAt(0), des)) {
+                            Terminal.append("\nTransiciones: " + ori + " + " + auto[1].charAt(0) + " -> " + des);
+                        } else {
+                            Terminal.append("\nError al agregar la transicion " + tra);
+                        }
+                    } else {
+                        Terminal.append("\nError. Estados incorrectos");
+                    }
+                }
+                Ejecuta.removeActionListener(this);
+                desactivar();
+                Activar();
+            }
+        };
+        Ejecuta.addActionListener(l);
+    }//GEN-LAST:event_AgregaTransActionPerformed
+
+    private void EliminaTransActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EliminaTransActionPerformed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_EliminaTransActionPerformed
+    
+    public void mostrar() throws IOException {
         BufferedImage img = ImageIO.read(new File("src/Imagenes/automata.gif"));
         AutomataOriginal.setIcon(new ImageIcon(img));
         AutomataOriginal.revalidate();
@@ -385,10 +794,19 @@ public class Grafico extends javax.swing.JFrame {
         panelOriginal.add(AutomataOriginal);
     }
     
+    public void mostrar2() throws IOException {
+        BufferedImage img = ImageIO.read(new File("src/Imagenes/automata.gif"));
+        Automataclon.setIcon(new ImageIcon(img));
+        Automataclon.revalidate();
+        Automataclon.repaint();
+        Automataclon.update(Automataclon.getGraphics());
+        Panelclon.add(Automataclon);
+    }
+    
     private void Activar() {
         AgregarEstado.setEnabled(true);
         AgregarFinal.setEnabled(true);
-
+        
         if (esAFD == true) {
             if (!af.estados.isEmpty()) {
                 ModificarEstado.setEnabled(true);
@@ -422,6 +840,9 @@ public class Grafico extends javax.swing.JFrame {
                 if (encontrado) {
                     ModificaTransAFD.setEnabled(true);
                     EliminaTrans.setEnabled(true);
+                    Reconocer.setEnabled(true);
+                    //Ejecuta.setEnabled(true);
+                    //IntroTexto.setEnabled(true);
                 }
             }
         } else {
@@ -460,9 +881,19 @@ public class Grafico extends javax.swing.JFrame {
                     EliminaTrans.setEnabled(true);
                     ModificaTransA.setEnabled(true);
                     EliminaTransA.setEnabled(true);
+                    Reconocer.setEnabled(true);
+                    //Ejecuta.setEnabled(true);
+                    //IntroTexto.setEnabled(true);
                 }
             }
         }
+    }
+    
+    private void desactivar() {
+        IntroTexto.setText("");
+        IntroTexto.setEnabled(false);
+        Ejecuta.setEnabled(false);
+        Visualiza.setEnabled(true);
     }
 
     /**
@@ -507,6 +938,7 @@ public class Grafico extends javax.swing.JFrame {
     private javax.swing.JMenuItem AgregarEstado;
     private javax.swing.JMenuItem AgregarFinal;
     private javax.swing.JLabel AutomataOriginal;
+    private javax.swing.JLabel Automataclon;
     private javax.swing.JButton Clona;
     private javax.swing.JMenuItem CreaAFD;
     private javax.swing.JMenuItem CreaAFND;
@@ -523,9 +955,12 @@ public class Grafico extends javax.swing.JFrame {
     private javax.swing.JMenuItem ModificaTransAFD;
     private javax.swing.JMenuItem ModificaTransAFND;
     private javax.swing.JMenuItem ModificarEstado;
+    private javax.swing.JPanel Panelclon;
+    private javax.swing.JButton Reconocer;
     private javax.swing.JTextArea Terminal;
     private javax.swing.JButton Visualiza;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;

@@ -1,0 +1,12 @@
+#AFD
+#Estados A B D
+#Finales C
+A,0,A
+A,1,B
+B,0,B
+B,1,C
+C,0,C
+C,1,D
+D,1,B
+D,0,A
+#EOF

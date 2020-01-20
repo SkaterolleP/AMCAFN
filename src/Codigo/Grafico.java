@@ -816,7 +816,31 @@ public class Grafico extends javax.swing.JFrame {
         ActionListener l = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                String[] auto = IntroTexto.getText().split(",");
+                if (esAFD) {
+                    if (af.estadoCorrecto(auto[0]) && af.estadoCorrecto(auto[2])) {
+                        if (af.eliminarTransicion(auto[0], auto[1].charAt(0), auto[2])) {
+                            TransicionAFD tmp = new TransicionAFD(auto[0], auto[1].charAt(0), auto[2]);
+                            Terminal.append("\nEliminada Transición " + tmp);
+                        } else {
+                            Terminal.append("\nError. La transición no existe.");
+                        }
+                    } else {
+                        Terminal.append("\nError. Estados incorrectos.");
+                    }
+                } else {
+                    if (afn.estadosCorrecto(auto[0]) && afn.estadosCorrecto(auto[2])) {
+                        if (afn.eliminarTransicion(auto[0], auto[1].charAt(0), auto[2])) {
+                            EstadoNF ori = afn.estados.get(afn.estados.indexOf(new EstadoNF(auto[0])));
+                            EstadoNF des = afn.estados.get(afn.estados.indexOf(new EstadoNF(auto[2])));
+                            Terminal.append("\nEliminada Transición " + ori + " + " + auto[1].charAt(0) + " --> " + des);
+                        } else {
+                            Terminal.append("\nError. La transición no existe.");
+                        }
+                    } else {
+                        Terminal.append("\nError. Estados incorrectos.");
+                    }
+                }
                 Ejecuta.removeActionListener(this);
                 desactivar();
                 Activar();
@@ -833,7 +857,21 @@ public class Grafico extends javax.swing.JFrame {
         ActionListener l = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                String[] auto = IntroTexto.getText().split(",");
+                if (esAFD) {
+                    if (af.estadoCorrecto(auto[0]) && af.estadoCorrecto(auto[2])) {
+                        if (af.modificarTransicion(auto[0], auto[1].charAt(0), auto[2])) {
+                            TransicionAFD tmp = new TransicionAFD(auto[0], auto[1].charAt(0), auto[2]);
+                            Terminal.append("\nTransición " + tmp + " modificada.");
+                        } else {
+                            Terminal.append("\nError. No existe la transición.");
+                        }
+                    } else {
+                        Terminal.append("\nError. Estados incorrectos.");
+                    }
+                } else {
+                    Terminal.append("\nError. Modificar transiciónAFD es solo para AFD. El automata actual es AFND.");
+                }
                 Ejecuta.removeActionListener(this);
                 desactivar();
                 Activar();
@@ -850,7 +888,24 @@ public class Grafico extends javax.swing.JFrame {
         ActionListener l = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                String[] auto = IntroTexto.getText().split(",");
+                if (esAFD) {
+                    Terminal.append("\nError. Modificar transiciónAFND es solo para AFND. El automata actual es AFD.");
+                } else {
+                    if (afn.estadosCorrecto(auto[0]) && afn.estadosCorrecto(auto[2]) && afn.estadosCorrecto(auto[3])) {
+                        EstadoNF ori = afn.estados.get(afn.estados.indexOf(new EstadoNF(auto[0])));
+                        EstadoNF des = afn.estados.get(afn.estados.indexOf(new EstadoNF(auto[3])));
+                        if (afn.modificarTransicion(auto[0], auto[1].charAt(0), auto[2], auto[3])) {
+                            Terminal.append("\nTransición " + ori + " + " + auto[1].charAt(0) + " -> " + des + " modificádo.");
+                        } else if (ori.existeTransicion(ori, auto[1].charAt(0), des)) {
+                            Terminal.append("\nError. Ya existe la transición " + ori + " + " + auto[1].charAt(0) + " -> " + des);
+                        } else {
+                            Terminal.append("\nError. No existe la transición.");
+                        }
+                    } else {
+                        Terminal.append("\nError. Estados incorrectos.");
+                    }
+                }
                 Ejecuta.removeActionListener(this);
                 desactivar();
                 Activar();
@@ -867,7 +922,22 @@ public class Grafico extends javax.swing.JFrame {
         ActionListener l = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                String[] auto = IntroTexto.getText().split(",");
+                if (esAFD) {
+                    Terminal.append("\nError. Esta Transición solo vale para AFND.");
+                } else {
+                    if (afn.estadosCorrecto(auto[0]) && afn.estadosCorrecto(auto[1])) {
+                        EstadoNF ori = afn.estados.get(afn.estados.indexOf(new EstadoNF(auto[0])));
+                        EstadoNF des = afn.estados.get(afn.estados.indexOf(new EstadoNF(auto[1])));
+                        if (afn.agregarTransicionA(ori, des)) {
+                            Terminal.append("\nTransición " + ori + " + λ ->" + des + " Realizada.");
+                        } else {
+                            Terminal.append("\nError al agregar la transición " + ori + " + λ ->" + des);
+                        }
+                    } else {
+                        Terminal.append("\nError. Estados incorrectos.");
+                    }
+                }
                 Ejecuta.removeActionListener(this);
                 desactivar();
                 Activar();
@@ -884,7 +954,23 @@ public class Grafico extends javax.swing.JFrame {
         ActionListener l = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                String[] auto = IntroTexto.getText().split(",");
+                if (esAFD) {
+                    Terminal.append("\nError. Esta Transición solo vale para AFND.");
+                } else {
+                    if (afn.estadosCorrecto(auto[0]) && afn.estadosCorrecto(auto[1]) && afn.estadosCorrecto(auto[2])) {
+                        EstadoNF ori = afn.estados.get(afn.estados.indexOf(new EstadoNF(auto[0])));
+                        EstadoNF des = afn.estados.get(afn.estados.indexOf(new EstadoNF(auto[1])));
+                        EstadoNF nue = afn.estados.get(afn.estados.indexOf(new EstadoNF(auto[2])));
+                        if (afn.modificarTransicionA(ori, des, nue)) {
+                            Terminal.append("\nTransición " + ori + " + λ -> " + nue + " Modificada.");
+                        } else {
+                            Terminal.append("\nError al modificar la transición.");
+                        }
+                    } else {
+                        Terminal.append("\nError. Estados incorrectos.");
+                    }
+                }
                 Ejecuta.removeActionListener(this);
                 desactivar();
                 Activar();
@@ -901,7 +987,22 @@ public class Grafico extends javax.swing.JFrame {
         ActionListener l = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
+                String[] auto = IntroTexto.getText().split(",");
+                if (esAFD) {
+                    Terminal.append("\nError. Esta Transición solo vale para AFND.");
+                } else {
+                    if (afn.estadosCorrecto(auto[0]) && afn.estadosCorrecto(auto[1])) {
+                        EstadoNF ori = afn.estados.get(afn.estados.indexOf(new EstadoNF(auto[0])));
+                        EstadoNF des = afn.estados.get(afn.estados.indexOf(new EstadoNF(auto[1])));
+                        if (afn.eliminarTransicionA(ori, des)) {
+                            Terminal.append("\nTransición " + ori + " + λ -> " + des + " Eliminada.");
+                        } else {
+                            Terminal.append("\nError al eliminar la transición.");
+                        }
+                    } else {
+                        Terminal.append("\nError. Estados incorrectos.");
+                    }
+                }
                 Ejecuta.removeActionListener(this);
                 desactivar();
                 Activar();

@@ -1,9 +1,0 @@
-digraph finite_state_machine {
- rankdir=LR;
- size="8,5"
-   node [shape = point]; start;
-node [shape = circle] a;
-node [shape = circle] b;
- node [shape = doublecircle, color=black, fontcolor=black]; c;
-a -> b [label = "1"];
-start -> a;}
